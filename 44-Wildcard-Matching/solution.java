@@ -8,14 +8,14 @@ public class Solution {
             if (p.charAt(j)=='*') d[0][j+1]=d[0][j];
         }
         
-        for (int i=1; i<= lenS; i++) {
-            for (int j=1; j<=lenP; j++) {
-                if (p.charAt(j-1)==s.charAt(i-1) || p.charAt(j-1)=='?')
-                    d[i][j]=d[i-1][j-1];
-                else if (p.charAt(j-1)=='*') {
-                    for (int k=0; k<=i; k++) 
-                        if (d[k][j-1]==true) {
-                            d[i][j]=true;
+        for (int i=0; i<lenS; i++) {
+            for (int j=0; j<lenP; j++) {
+                if (p.charAt(j)==s.charAt(i) || p.charAt(j)=='?')
+                    d[i+1][j+1]=d[i][j];
+                else if (p.charAt(j)=='*') {
+                    for (int k=0; k<=i+1; k++) 
+                        if (d[k][j]==true) {
+                            d[i+1][j+1]=true;
                             break;
                     }
                 }
