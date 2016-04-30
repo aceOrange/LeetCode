@@ -1,0 +1,36 @@
+public class Solution {
+    public double findMedianSortedArrays(int[] a, int[] b) {
+        int m=a.length, n=b.length;
+        
+        if ((m+n)%2 == 1) {
+            return kthElement(a, b, (m+n)/2, 0, m, 0, n);
+        } else {
+            return (kthElement(a, b, (m+n)/2, 0, m, 0, n) + 
+                    kthElement(a, b, (m+n)/2-1, 0, m, 0, n))/2.0;
+        }
+    }
+    
+    private int kthElement(int[] a, int[] b, int k, int aL, int aR, int bL, int bR) {
+        if (aL==aR)
+            return b[bL+k];
+        if (bL==bR)
+            return a[aL+k];
+            
+        int midA=(aL+aR)/2;
+        int midB=(bL+bR)/2;
+        int lenAL=midA-aL;
+        int lenBL=midB-bL;
+        
+        if (a[midA] <= b[midB]) {
+            if (k<= lenAL+lenBL)
+                return kthElement(a, b, k, aL, aR, bL, midB);
+            else
+                return kthElement(a, b, k-lenAL-1, midA+1, aR, bL, bR);
+        } else {
+            if (k <= lenAL+lenBL) 
+                return kthElement(a, b, k, aL, midA, bL, bR);
+            else 
+                return kthElement(a, b, k-lenBL-1, aL, aR, midB+1, bR);
+        }
+    }
+}
