@@ -1,6 +1,13 @@
 public class Solution {
     public boolean isMatch(String s, String p) {
         int lenS=s.length(), lenP=p.length();
+        // if (lenS==0 || lenP==0) return false;
+        
+        int count=0;
+        for (int j=0; j<lenP; j++) 
+            if (p.charAt(j)!='*') count++;
+        if (count > lenS) return false;
+        
         boolean[][] d=new boolean[lenS+1][lenP+1];
         d[0][0]=true;
         
