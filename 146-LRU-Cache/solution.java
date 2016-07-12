@@ -18,11 +18,16 @@ public class LRUCache {
     
     private int capacity;
     private HashMap<Integer, Node> map = new HashMap<>();
-    private Node head = new Node(-1, -1);
-    private Node tail = new Node(-1, -1);
+    private Node head;
+    private Node tail;
     
     public LRUCache(int capacity) {
+        
+        //initialize;
         this.capacity = capacity;
+        head = new Node(-1, -1);
+        tail = new Node(-1, -1);
+        
         head.next = tail;
         tail.prev = head;
     }
