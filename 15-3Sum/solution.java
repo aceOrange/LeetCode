@@ -1,35 +1,45 @@
 public class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> listSet = new ArrayList<>();
         
-        Arrays.sort(nums);
-        
-        List<List<Integer>> ansSet=new ArrayList<List<Integer>>();
-        List<Integer> ans=new ArrayList<Integer>();
-        
-        for(int i=0; i<nums.length-2;i=incIndex(nums,i)) {
-            int a= nums[i], lo=i+1, hi=nums.length-1;
-            while (lo < hi) { 
-                int b=nums[lo], c=nums[hi];
-                if (a+b+c==0) {
-                    ans = Arrays.asList(a,b,c);
-                    ansSet.add(ans);
-                    lo=incIndex(nums, lo);
-                    hi=decIndex(nums, hi);
-                }
-                else if (a+b+c>0) hi=decIndex(nums, hi);
-                else if (a+b+c<0) lo=incIndex(nums, lo);
-            }
+        if (nums == null || nums.length < 3) {
+            return  listSet; 
         }
         
-        return ansSet;
+        // Sort the array
+        Arrays.sort(nums);
+        
+        for (int i = 0; i < nums.length - 2; i = inc(nums, i)) {
+            int lo = i+1, hi = nums.length - 1;
+            while (lo < hi) {
+                int sum = nums[i] + nums[lo] + nums[hi];
+                if (sum == 0) {
+                    List<Integer> list = new ArrayList<Integer>();
+                    list.add(nums[i]); list.add(nums[lo]); list.add(nums[hi]);
+                    listSet.add(list);
+                    lo = inc(nums, lo);
+                    hi = dec(nums, hi);
+                } else if (sum > 0) {
+                    hi = dec(nums, hi);
+                } else {
+                    lo = inc(nums, lo);
+                }
+            }
+        }
+        return listSet;
     }
-    
-    public int incIndex(int[] nums, int i) {
-        while (i< nums.length-1 && nums[i]==nums[++i]) {};
-        return i;
+        
+    public int inc(int[] nums, int i) {
+        while (i+1 < nums.length && nums[i] == nums[i+1]) {
+            i++;
+        }
+        return i+1;
     }
-    public int decIndex(int[] nums, int i) {
-        while (i>0 && nums[i]==nums[--i]) {};
-        return i;
+        
+    public int dec(int[] nums, int i) {
+        while (i-1 >= 0 && nums[i] == nums[i-1]) {
+            i--;
+        }
+        return i-1;
     }
 }
