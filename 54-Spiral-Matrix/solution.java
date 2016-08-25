@@ -6,24 +6,48 @@ public class Solution {
             return list;
         }
         
-        int row = matrix.length;
-        int col = matrix[0].length;
-        int i = 0;
-        int j = -1;
-        int n;
+        int m = matrix.length;
+        int n = matrix[0].length;
         
-        while (true) {
-            for (n = 0; n < col; n++)   list.add(matrix[i][++j]);
-            if (--row == 0) break;
+        int x=0, y=0;
+        
+        while (m > 0 && n > 0) {
+            if (m == 1) {
+                for (int i = 0; i < n; i++) {
+                    list.add(matrix[x][y++]);
+                }
+                break;
+            } else if (n == 1) {
+                for (int i = 0; i < m; i++) {
+                    list.add(matrix[x++][y]);
+                }
+                break;
+            }
             
-            for (n = 0; n < row; n++)   list.add(matrix[++i][j]);
-            if (--col == 0) break;
+            // top
+            for (int i = 0; i < n-1; i++) {
+                list.add(matrix[x][y++]);
+            }
             
-            for (n = 0; n < col; n++)   list.add(matrix[i][--j]);
-            if (--row == 0) break;
+            //right
+            for (int i = 0; i < m-1; i++) {
+                list.add(matrix[x++][y]);
+            }
             
-            for (n = 0; n < row; n++)   list.add(matrix[--i][j]);
-            if (--col == 0) break;
+            //bottom
+            for (int i = 0; i < n-1; i++) {
+                list.add(matrix[x][y--]);
+            }
+            
+            //left
+            for (int i = 0; i < m-1; i++) {
+                list.add(matrix[x--][y]);
+            }
+            
+            x++;
+            y++;
+            m -= 2;
+            n -= 2;
         }
         
         return list;
