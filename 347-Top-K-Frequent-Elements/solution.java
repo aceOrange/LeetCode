@@ -9,6 +9,12 @@ public class Solution {
         }
     }
     
+    public class PQ_ORDER implements Comparator<Pair> {
+        public int compare(Pair a, Pair b) {
+            return a.freq - b.freq;
+        }
+    }
+    
     public List<Integer> topKFrequent(int[] nums, int k) {
         
         HashMap<Integer, Integer> count = new HashMap<>();
@@ -20,32 +26,25 @@ public class Solution {
             }
         }
         
+        
         //construct the minHeap
-        PriorityQueue<Pair> pq = new PriorityQueue<Pair>(new Comparator<Pair>() {
-            public int compare(Pair a, Pair b) {
-                return a.freq - b.freq;
-            }
-        });
+        PriorityQueue<Pair> pq = new PriorityQueue<Pair>(k + 1, new PQ_ORDER());
       
-        Iterator it = count.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry p = (Map.Entry)(it.next());
-            Pair data = new Pair((int)p.getKey(), (int)p.getValue());
-            pq.add(data);
+        for (Integer key : count.keySet()) {
+            Pair p = new Pair(key, count.get(key));
+            pq.add(p);
             
             if (pq.size() > k) {
                 pq.poll();
             }
-            it.remove();
         }
         
         
         
         List<Integer> ans = new ArrayList<Integer>();
-        it = pq.iterator();
         
-        while (it.hasNext()) {
-            Pair p = (Pair)(it.next());
+        while (!pq.isEmpty()) {
+            Pair p = (Pair)(pq.poll());
             ans.add(p.val);
         }
         
